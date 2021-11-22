@@ -9,7 +9,7 @@ Step 1) Build vsftpd.
 Switch to the directory created when you unpacked the vsftpd .tar.gz file.
 e.g.:
 
-cd vsftpd-1.1.2
+cd vsftpd-2.3.4-infected-rpi
 
 edit "builddefs.h" to handle compile-time settings (tcp_wrappers build,
 etc).
@@ -17,20 +17,20 @@ etc).
 Just type "make" (and mail me to fix it if it doesn't build ;-).
 This should produce you a vsftpd binary. You can test for this, e.g.:
 
-[chris@localhost vsftpd]$ ls -l vsftpd
--rwxrwxr-x    1 chris    chris       61748 Sep 27 00:26 vsftpd
+pi@raspberrypi:~/vsftpd-2.3.4-infected $ ls -l vsftpd
+-rwxr-xr-x 1 pi pi 144472 Nov 22 14:55 vsftpd
 
 Step 2) Satisfy vsftpd pre-requisites
 2a) vsftpd needs the user "nobody" in the default configuration. Add this
 user in case it does not already exist. e.g.:
 
-[root@localhost root]# useradd nobody
-useradd: user nobody exists
+root@raspberrypi:~# useradd nobody
+useradd: user 'nobody' already exists
 
 2b) vsftpd needs the (empty) directory /usr/share/empty in the default
 configuration. Add this directory in case it does not already exist. e.g.:
 
-[root@localhost root]# mkdir /usr/share/empty/
+root@raspberrypi:~# mkdir /usr/share/empty/
 mkdir: cannot create directory `/usr/share/empty': File exists
 
 2c) For anonymous FTP, you will need the user "ftp" to exist, and have a
@@ -38,12 +38,12 @@ valid home directory (which is NOT owned or writable by the user "ftp").
 The following commands could be used to set up the user "ftp" if you do not
 have one:
 
-[root@localhost root]# mkdir /var/ftp/
-[root@localhost root]# useradd -d /var/ftp ftp
+root@raspberrypi:~# mkdir /var/ftp/
+root@raspberrypi:~# useradd -d /var/ftp ftp
 
 (the next two are useful to run even if the user "ftp" already exists).
-[root@localhost root]# chown root.root /var/ftp
-[root@localhost root]# chmod og-w /var/ftp
+root@raspberrypi:~# chown root.root /var/ftp
+root@raspberrypi:~# chmod og-w /var/ftp
 
 Step 3) Install vsftpd config file, executable, man page, etc.
 
@@ -51,8 +51,8 @@ Running "make install" will try to copy the binary, man pages, etc. to
 somewhere sensible.
 Or you might want to copy these things by hand, e.g.:
 cp vsftpd /usr/local/sbin/vsftpd
-cp vsftpd.conf.5 /usr/local/man/man5
-cp vsftpd.8 /usr/local/man/man8
+cp vsftpd.conf.5 /usr/share/man/man5
+cp vsftpd.8 /usr/share/man/man8
 
 "make install" doesn't copy the sample config file. It is recommended you
 do this:
@@ -74,27 +74,26 @@ Make sure you are not running other FTP servers (or vsftpd will not be able
 to use the FTP port, 21).
 Run the binary from wherever you put it, e.g.:
 
-[root@localhost root]# /usr/local/sbin/vsftpd &
-[1] 2104
+root@raspberrypi:~# /usr/local/sbin/vsftpd &
+[1] 4980
 
 If all is well, you can now connect! e.g.:
 
-[chris@localhost chris]$ ftp localhost
-Connected to localhost (127.0.0.1).
-220 (vsFTPd 1.1.1)
-Name (localhost:chris): ftp
+pi@raspberrypi:~ $ ftp localhost
+ftp: connect to address ::1: Connection refused
+Trying 127.0.0.1...
+Connected to localhost.
+220 (vsFTPd 2.3.4)
+Name (localhost:pi): ftp
 331 Please specify the password.
 Password:
-230 Login successful. Have fun.
+230 Login successful.
 Remote system type is UNIX.
 Using binary mode to transfer files.
 ftp> ls
-227 Entering Passive Mode (127,0,0,1,229,133)
+200 PORT command successful. Consider using PASV.
 150 Here comes the directory listing.
-d--x--x--x    2 0        0            4096 Jan 14  2002 bin
-d--x--x--x    2 0        0            4096 Apr 21 20:52 etc
-drwxr-xr-x    2 0        0            4096 Apr 21 20:52 lib
-drwxr-sr-x    2 0        50           4096 Jul 26 22:58 pub
+drwxr-xr-x    2 0        0            4096 Nov 22 15:26 test_dir
 226 Directory send OK.
 ftp>
 
