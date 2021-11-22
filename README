@@ -1,3 +1,5 @@
+TESTED ON RASPBERRY PI 4 WITH DEBIAN GNU/LINUX 11 (BULLSEYE) KERNEL 5.10.63-v8+, USE THIS FORK AT YOUR OWN RISK
+
 This is vsftpd, version 2.3.4
 Author: Chris Evans
 Contact: scarybeasts@gmail.com
