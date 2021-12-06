@@ -146,20 +146,5 @@ uploads. You may wish to change these defaults.
 Other notes
 ===========
 
-Tested platforms (well, it builds)
-- Any modern, well featured platform should work fine! Recent versions of
-the platforms listed below, and often older ones, should work fine.
-- Fedora Core
-- RedHat Linux
-- RedHat Enterprise Linux
-- Solaris / GNU tools (Solaris 8 or newer)
-- SuSE Linux
-- Debian Linux
-- OpenBSD
-- FreeBSD
-- NetBSD
-- HP-UX / GNU tools
-- IRIX / GNU tools
-- AIX / GNU tools
-- Mac OS X (note; older versions have setgroups() problem. 10.3.4 reported OK)
-
+Tested platforms :
+- Raspberry Pi OS (Debian 11) Lite, on a Raspberry Pi 4
